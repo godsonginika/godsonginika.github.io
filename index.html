@@ -539,6 +539,36 @@ dialog p{color:var(--muted);font-size:.95rem}
 /* a soft violet glow behind the closing buttons gives the glass something to catch */
 #m-closing .btn-row{position:relative;isolation:isolate}
 #m-closing .btn-row::before{content:"";position:absolute;left:50%;top:50%;width:min(560px,92vw);height:170px;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(111,95,234,.38),transparent);filter:blur(12px);z-index:-1;pointer-events:none}
+
+/* ===================== PHONE FIX: nothing may be wider than the screen ===================== */
+html{overflow-x:hidden}
+body{overflow-x:clip;max-width:100%}
+.dash-hero>*{min-width:0}
+.dash-hero .portrait::after{display:none}
+.dash-hero .portrait .frame{
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 8%,#000 86%,transparent 100%),linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(180deg,transparent 0,#000 8%,#000 86%,transparent 100%),linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+  mask-composite:intersect}
+@media(max-width:860px){
+  /* this must come AFTER the desktop two-column rule, otherwise the phone keeps two columns */
+  .dash-hero{grid-template-columns:minmax(0,1fr);min-height:0;gap:8px}
+  .dash-hero .portrait{width:100%;max-width:440px;margin:0 auto;justify-self:center;aspect-ratio:1/1}
+  .dash-hero .portrait img{object-position:47% 6%}
+}
+
+/* ===================== FIRST SCREEN: phone spacing · lighter tagline · bigger PLAY ===================== */
+.title-card .tagline{font-weight:400;bottom:calc(5svh + 50px + 16px)}          /* not bold, web + phone */
+.play{min-height:50px;padding:0 36px;font-size:.76rem;gap:10px}                 /* PLAY a little bigger */
+.play svg{width:14px;height:14px}
+@media(max-width:700px){
+  .title-card{padding-top:calc(var(--nav-h) + 1.5svh)}                          /* start BELOW the SERIES logo */
+  .title-card .portrait{top:25svh;height:54svh}                                 /* photo lower, a bit taller */
+  .title-card .portrait .frame{                                                 /* fade the photo's bottom edge too */
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 6%,#000 80%,transparent 100%),linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 6%,#000 80%,transparent 100%),linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%)}
+  .title-card .tagline{bottom:calc(5svh + 72px)}
+}
 </style>
 </head>
 <body>
